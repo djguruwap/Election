@@ -18,7 +18,8 @@ export const Input = ({
 	error,
 	touched,
 	isSecure,
-	editable
+	editable,
+	isIcon
 }) => {
 	return (
 		<>

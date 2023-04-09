@@ -5,6 +5,7 @@ import {Dashboard} from '../../containers/Dashboard/Dashboard';
 import {PrivacyPolicy} from '../../containers/Privacyandpolicies';
 import {MyAccount} from '../../containers/Dashboard/MyAccout/MyAccount';
 import { AdvanceSearch } from '../../containers/Dashboard/AdvanceSearch/AdvanceSearch';
+import { SurvayList } from '../../containers/Survay/SurvayList';
 
 const Stack = createStackNavigator();
 export const DashboardStack = () => {
@@ -30,6 +31,16 @@ export const DashboardStack = () => {
         name="MyAccount"
         component={MyAccount}
       />
+       <Stack.Screen
+        options={{ headerShown: false }}
+        name="Survay"
+        component={SurvayList}
+      />
+      {/* <Stack.Screen
+        options={{ headerShown: false }}
+        name="TakeSurvay"
+        component={MyAccount}
+      /> */}
       {/* <Stack.Screen
         options={{headerShown: false}}
         name="TermsAndCondition"

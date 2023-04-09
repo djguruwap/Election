@@ -16,6 +16,9 @@ import Apis from '../../services/apis';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useSelector } from 'react-redux';
 import { UsersList } from '../../containers/UserList';
+import { SurvayList } from '../../containers/Survay/SurvayList';
+import { TakeSurvay } from '../../containers/Survay/Index';
+import { NoticeBoard } from '../../containers/NoticeBoard';
 
 //Drawer
 const Stack = createStackNavigator();
@@ -68,6 +71,9 @@ export const MainDrawer = () => {
       />
       <Stack.Screen name="MyAccount" component={MyAccount} />
       <Stack.Screen name="AdvanceSearch" component={AdvanceSearch} options={{title: 'Advance Search'}} />
+      <Stack.Screen name="Survay" component={SurvayList} options={{title: 'Survay List'}} />
+      <Stack.Screen name="TakeSurvay" component={TakeSurvay} options={{title: 'Survay'}} />
+      <Stack.Screen name="NoticeBoard" component={NoticeBoard} options={{title: 'Notice Board'}} />
       <Stack.Screen name="FullView" component={FullView} options={{title: 'Voter'}} />
       <Stack.Screen
 				options={{ title: 'Create User'}}

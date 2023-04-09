@@ -32,4 +32,22 @@ export default class Apis {
   static SearchUser = data => {
     return Network('POST', `/search`, '', data);
   };
+
+  //survay
+  static GetSurvayDetils = data => {
+    return Network('GET', `/user/wards/`, '', data);
+  };
+  static GetSurvayList = data => {
+    return Network('GET', `/users/ward/${data?.key}`, '', data);
+  };
+
+  static AddOneSurvay = data => {
+    return Network('POST', `/ward/survey`, '', data);
+  };
+  static  GetSliders = data => {
+    return Network('GET', `/sliders`, '', data);
+  };
+  static  GetNotification = data => {
+    return Network('GET', `/notifications`, '', data);
+  };
 }

@@ -35,7 +35,7 @@ const items = [
   'Area List',
   'Advance Search',
   'Survay',
-  'Settings',
+  'User Account',
 ]
 
 export const Dashboard = () => {
@@ -44,6 +44,10 @@ export const Dashboard = () => {
   const navigation = useNavigation();
   const loading = useSelector(state => state.profile.loading)
   const [pincodes, setPincodes] = useState({})
+  const [ward, setWard] = useState()
+  const [isLoading, setIsLoading] = useState(false)
+	const [sliderData, setSliderData] = useState([])
+  
 
   useEffect(() => {
     getProfile()
@@ -52,7 +56,14 @@ export const Dashboard = () => {
   const getProfile = async () => {
     const token = await AsyncStorage.getItem('token')
     dispatch(getProfileData(token))
+    getSurvayDettails(token)
     fetchPincodes(token)
+
+    Apis.GetSliders({token}).then(res => {
+			const images = res?.data.map(item => item?.image)
+			setSliderData(images)
+      setIsLoading(false)
+		})
   }
 
   const fetchPincodes = (token) => {
@@ -62,6 +73,14 @@ export const Dashboard = () => {
     })
   }
 
+  const getSurvayDettails = (token) => {
+    Apis.GetSurvayDetils({token}).then(res => {
+      setWard(res?.data?.ward)
+    })
+  }
+
+  
+
 
   return (
     <View style={styles.container}>
@@ -69,7 +88,7 @@ export const Dashboard = () => {
 
     <View>
       <SliderBox
-        images={images}
+        images={sliderData}
         sliderBoxHeight={SCREEN.HEIGHT * 0.28}
         onCurrentImagePressed={index => console.warn(`image ${index} pressed`)}
         dotColor={COLORS.PRIMARY_1}
@@ -86,11 +105,23 @@ export const Dashboard = () => {
       <ScrollView>
 
       <View style={styles.subContainer}>
-        <TouchableOpacity style={styles.card}>
+        <TouchableOpacity onPress={() => navigation.navigate("NoticeBoard")} style={styles.card}>
           <View style={{flex: 1, alignItems:'center', justifyContent: 'center'}}>
             <Image source={NoticeBoard} style={{height: 80, width: 80}}/>
             {/* <SearchIcon width="100%" height="100%"/> */}
             <Text style={styles.text}>{items[0]}</Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('AdvanceSearch', {pincodes})} style={styles.card}>
+          <View style={{flex: 1, alignItems:'center', justifyContent: 'center'}}>
+            <Image source={Search} style={{height: 80, width: 80}}/>
+            <Text style={styles.text}>{items[3]}</Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("Survay", {ward})} style={styles.card}>
+          <View style={{flex: 1, alignItems:'center', justifyContent: 'center'}}>
+            <Image source={Survay} style={{height: 80, width: 80}}/>
+            <Text style={styles.text}>{items[4]}</Text>
           </View>
         </TouchableOpacity>
         <TouchableOpacity style={styles.card}>
@@ -105,24 +136,16 @@ export const Dashboard = () => {
             <Text style={styles.text}>{items[2]}</Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('AdvanceSearch', {pincodes})} style={styles.card}>
-          <View style={{flex: 1, alignItems:'center', justifyContent: 'center'}}>
-            <Image source={Search} style={{height: 80, width: 80}}/>
-            <Text style={styles.text}>{items[3]}</Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.card}>
-          <View style={{flex: 1, alignItems:'center', justifyContent: 'center'}}>
-            <Image source={Survay} style={{height: 80, width: 80}}/>
-            <Text style={styles.text}>{items[4]}</Text>
-          </View>
-        </TouchableOpacity>
+     
+     
         <TouchableOpacity style={styles.card}>
           <View style={{flex: 1, alignItems:'center', justifyContent: 'center'}}>
             <Image source={Settings} style={{height: 80, width: 80}}/>
             <Text style={styles.text}>{items[5]}</Text>
           </View>
         </TouchableOpacity>
+
+        
       </View>
       </ScrollView>
       <Image
